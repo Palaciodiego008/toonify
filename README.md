@@ -32,7 +32,7 @@ import (
     "fmt"
     "log"
 
-    "github.com/Palaciodiego008/toonify/pkg/toon"
+    "github.com/Palaciodiego008/toonify"
 )
 
 func main() {
@@ -46,12 +46,12 @@ func main() {
         },
     }
 
-    toonData, err := toon.Marshal(data)
+    toonData, err := toonify.Encode(data)
     if err != nil {
         log.Fatal(err)
     }
 
-    fmt.Println(string(toonData))
+    fmt.Println(toonData)
     // Output:
     // name: Alice
     // age: 30
@@ -62,7 +62,7 @@ func main() {
 
     // Decoding (similar to json.Unmarshal)
     var result map[string]interface{}
-    err = toon.Unmarshal(toonData, &result)
+    err = toonify.Decode(toonData, &result)
     if err != nil {
         log.Fatal(err)
     }
@@ -96,13 +96,13 @@ func main() {
         },
     }
 
-    // Marshal struct to TOON
-    toonData, err := toon.Marshal(resp)
+    // Encode struct to TOON
+    toonData, err := toonify.Encode(resp)
     if err != nil {
         log.Fatal(err)
     }
 
-    fmt.Println(string(toonData))
+    fmt.Println(toonData)
     // Output:
     // message: User list
     // count: 2
@@ -111,9 +111,9 @@ func main() {
     //     1,Alice,admin
     //     2,Bob,user
 
-    // Unmarshal back to struct
+    // Decode back to struct
     var decoded Response
-    err = toon.Unmarshal(toonData, &decoded)
+    err = toonify.Decode(toonData, &decoded)
     if err != nil {
         log.Fatal(err)
     }
@@ -124,26 +124,26 @@ func main() {
 
 ```go
 // Custom encoding options
-opts := &toon.EncodeOptions{
-    Indent:    4,                    // Use 4 spaces for indentation
-    Delimiter: toon.DelimiterTab,    // Use tabs for tabular arrays
+opts := &toonify.EncodeOptions{
+    Indent:    4,                         // Use 4 spaces for indentation
+    Delimiter: toonify.DelimiterTab,      // Use tabs for tabular arrays
 }
 
-toonData, err := toon.MarshalWithOptions(data, opts)
+toonData, err := toonify.EncodeWithOptions(data, opts)
 
 // Custom decoding options
-decodeOpts := &toon.DecodeOptions{
+decodeOpts := &toonify.DecodeOptions{
     Strict: false,  // Allow unknown fields
 }
 
-err = toon.UnmarshalWithOptions(toonData, &result, decodeOpts)
+err = toonify.DecodeWithOptions(toonData, &result, decodeOpts)
 ```
 
 ### Streaming Large Data
 
 ```go
 // For large datasets, use EncodeLines for memory efficiency
-lines, err := toon.EncodeLines(largeData, nil)
+lines, err := toonify.EncodeLines(largeData, nil)
 if err != nil {
     log.Fatal(err)
 }
@@ -222,16 +222,14 @@ user:
 
 ### Core Functions
 
-- `toon.Marshal(v interface{}) ([]byte, error)` - Encode to TOON format
-- `toon.Unmarshal(data []byte, v interface{}) error` - Decode from TOON format
-- `toon.MarshalWithOptions(v interface{}, opts *EncodeOptions) ([]byte, error)` - Encode with options
-- `toon.UnmarshalWithOptions(data []byte, v interface{}, opts *DecodeOptions) error` - Decode with options
+- `toonify.Encode(v interface{}) (string, error)` - Encode to TOON format
+- `toonify.Decode(data string, v interface{}) error` - Decode from TOON format
+- `toonify.EncodeWithOptions(v interface{}, opts *EncodeOptions) (string, error)` - Encode with options
+- `toonify.DecodeWithOptions(data string, v interface{}, opts *DecodeOptions) error` - Decode with options
 
 ### Convenience Functions
 
-- `toon.EncodeToString(v interface{}) (string, error)` - Encode to string
-- `toon.DecodeFromString(s string, v interface{}) error` - Decode from string
-- `toon.EncodeLines(v interface{}, opts *EncodeOptions) ([]string, error)` - Encode to lines
+- `toonify.EncodeLines(v interface{}, opts *EncodeOptions) ([]string, error)` - Encode to lines
 
 ### Options
 
