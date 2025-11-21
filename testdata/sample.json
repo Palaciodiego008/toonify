@@ -1,0 +1,36 @@
+{
+  "company": "TechCorp",
+  "founded": 2020,
+  "employees": [
+    {
+      "id": 1,
+      "name": "Alice Johnson",
+      "email": "alice@techcorp.com",
+      "department": "Engineering",
+      "salary": 75000,
+      "active": true
+    },
+    {
+      "id": 2,
+      "name": "Bob Smith",
+      "email": "bob@techcorp.com",
+      "department": "Marketing",
+      "salary": 65000,
+      "active": true
+    },
+    {
+      "id": 3,
+      "name": "Carol Davis",
+      "email": "carol@techcorp.com",
+      "department": "Sales",
+      "salary": 70000,
+      "active": false
+    }
+  ],
+  "departments": ["Engineering", "Marketing", "Sales", "HR"],
+  "metadata": {
+    "version": "1.0",
+    "lastUpdated": "2024-01-15",
+    "source": "HR System"
+  }
+}
